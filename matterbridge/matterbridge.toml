@@ -1,0 +1,25 @@
+[discord.stratagus]
+Token="XXXXX"
+
+Server="XXXXX" # picked from guilds the bot is connected to
+
+RemoteNickFormat="[{PROTOCOL}] <{NICK}> "
+
+[gitter.wargus]
+Token="XXXXXXX"
+RemoteNickFormat="[{PROTOCOL}] <{NICK}> "
+#This improves the situation where a gitter user uploads a picture/file, just relay the link instead of the Markdown
+ReplaceMessages=[["^\\[!\\[[^\\]]+\\]\\(https?:\\/\\/files\\.gitter\\.im\\/[^\\/]+\\/[^\\/]+\\/[^\\/]+\\/thumb\\/[^\\)]+\\)\\]\\(([^\\)]+)\\)$", "$1"], ["\\[[^\\]]+\\]\\((https:\\/\\/files\\.gitter\\.im\\/[^\\/]+\\/[^\\/]+\\/[^\\/]+\\/[^\\)]+)\\)$", "$1"]]
+
+[[gateway]]
+name="gateway1"
+enable=true
+
+[[gateway.inout]]
+account="discord.stratagus"
+channel="engine"
+
+[[gateway.inout]]
+account="gitter.wargus"
+channel="Wargus/chat"
+
