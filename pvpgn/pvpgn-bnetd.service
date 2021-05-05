@@ -1,0 +1,16 @@
+[Unit]
+Description=PVPGN
+After=network.target
+
+[Service]
+# User=pvpgn
+WorkingDirectory=/opt/pvpgn
+ExecStart=docker-compose up pvpgn-server
+SuccessExitStatus=0
+TimeoutStopSec=10
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+

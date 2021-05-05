@@ -1,0 +1,34 @@
+version: "2.4"
+services:
+  pvpgn-build:
+    build: .
+    image: pvpgn-server:build
+    read_only: false
+    volumes:
+      - type: bind
+        source: ./local-install/
+        target: /opt/
+        read_only: false
+    environment:
+      DESTDIR: /opt
+    command: ["sh", "-c", "cd pvpgn-server && cmake -DWITH_BNETD=true -DWITH_D2CS=false -DWITH_D2DBS=false -DWITH_LUA=false -DWITH_MYSQL=false -DWITH_SQLITE3=false -DWITH_PGSQL=false -DWITH_ODBC=false && make && make install"]
+  pvpgn-server:
+    build: local-install
+    image: pvpgn-server:bnetd
+    read_only: true
+    ports:
+      - "6112:6112/udp"
+      - "6111-6113:6111-6113/tcp"
+    cap_drop:
+      - ALL
+    mem_limit: 200M
+    # cpus: 0.5
+    volumes:
+      - type: bind
+        source: ./local-install/usr/local/etc/pvpgn
+        target: /usr/local/etc/pvpgn
+        read_only: true
+      - type: bind
+        source: ./local-install/usr/local/var/pvpgn
+        target: /usr/local/var/pvpgn
+        read_only: false
